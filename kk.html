@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Will You Be My Valentine? 💖</title>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Poppins", Arial, sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      overflow: hidden;
+      color: white;
+      text-align: center;
+    }
+
+    .container {
+      width: min(92vw, 450px);
+      padding: 25px;
+      border-radius: 25px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 18px;
+      opacity: 0.95;
+    }
+
+    .btns {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 10px;
+      position: relative;
+    }
+
+    button {
+      border: none;
+      padding: 12px 22px;
+      font-size: 16px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: 0.2s ease;
+      font-weight: 600;
+    }
+
+    #yesBtn {
+      background: #00c853;
+      color: white;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    #yesBtn:hover { transform: scale(1.07); }
+
+    #noBtn {
+      background: #ff1744;
+      color: white;
+      position: relative;
+    }
+
+    #msg {
+      margin-top: 18px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      display: none;
+      animation: pop 0.6s ease;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .musicBtn {
+      margin-top: 15px;
+      background: rgba(255,255,255,0.25);
+      color: white;
+      width: 100%;
+    }
+
+    .musicBtn:hover {
+      transform: scale(1.03);
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp linear forwards;
+      opacity: 0.85;
+      z-index: 1;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0) scale(1); opacity: 0.9; }
+      to { transform: translateY(-110vh) scale(1.8); opacity: 0; }
+    }
+
+    .footer {
+      margin-top: 15px;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1 id="title">Hey Dipanjali 💖</h1>
+    <p id="subtitle">I have a very important question for you...</p>
+
+    <h1 style="margin-top:10px;">Will you be my Valentine? 🌹</h1>
+
+    <div class="btns">
+      <button id="yesBtn">Yes 😍</button>
+      <button id="noBtn">No 🙈</button>
+    </div>
+
+    <div id="msg">Yayyyyy Dipanjali!! 🥰🌹 I love you ❤️</div>
+
+    <button id="musicBtn" class="musicBtn">🎵 Play Romantic Music</button>
+
+    <div class="footer">Made with ❤️ by Kunal</div>
+  </div>
+
+  <!-- Music (you can change mp3 link later) -->
+  <audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const msg = document.getElementById("msg");
+    const title = document.getElementById("title");
+    const musicBtn = document.getElementById("musicBtn");
+    const bgMusic = document.getElementById("bgMusic");
+
+    // Floating hearts generator
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = ["💖","💕","💘","❤️","😍"][Math.floor(Math.random()*5)];
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (Math.random() * 18 + 18) + "px";
+      heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 7000);
+    }
+    setInterval(createHeart, 400);
+
+    // NO button runs away
+    noBtn.addEventListener("mouseover", () => {
+      const x = Math.floor(Math.random() * 250) - 125;
+      const y = Math.floor(Math.random() * 250) - 125;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    // YES button click
+    yesBtn.addEventListener("click", () => {
+      title.innerText = `Yayyy Dipanjali 😍💖`;
+      msg.innerText = `Yayyyy Dipanjali!! 🥰🌹 I love you ❤️`;
+
+      msg.style.display = "block";
+      noBtn.style.display = "none";
+      yesBtn.innerText = "Forever ❤️";
+      yesBtn.style.background = "#ff4081";
+    });
+
+    // Music play/pause
+    let playing = false;
+    musicBtn.addEventListener("click", async () => {
+      try {
+        if (!playing) {
+          await bgMusic.play();
+          playing = true;
+          musicBtn.innerText = "⏸ Pause Music";
+        } else {
+          bgMusic.pause();
+          playing = false;
+          musicBtn.innerText = "🎵 Play Romantic Music";
+        }
+      } catch (e) {
+        alert("Browser blocked autoplay. Please click again to play music 😊");
+      }
+    });
+  </script>
+
+</body>
+</html>
